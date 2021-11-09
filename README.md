@@ -73,7 +73,7 @@ r.var # -1
 
 ### Advanced Types
 
-`LSFOpt` currently support also some more advanced types of variables, such as lists, Json and XML. Lists have full support
+`LSFOpt` currently supports also some more advanced types of variables, such as lists, Json and XML. Lists have full support
 of type hinting and will try to convert all elements accordingly:
 
 ```python

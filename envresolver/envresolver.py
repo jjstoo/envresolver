@@ -31,6 +31,7 @@ class EnvResolver:
         """
         Initializes the instance and sets verbosity
 
+        :param list_separator: List separator symbol
         :param silent: If True, error messages will be printed to `stderr`
         """
         self._silent = silent
@@ -100,6 +101,13 @@ class EnvResolver:
             return
 
     def add_converter(self, t: Type, c: Callable):
+        """
+        Adds a custom converter/parser to the instance
+
+        :param t: Converter type
+        :param c: Converter callable accepting a single string-type argument
+        :return: None
+        """
         if not t:
             raise TypeError("Type cannot be None")
         if not callable(c):
@@ -108,16 +116,35 @@ class EnvResolver:
         self._converters[t] = c
 
     def add_parameter(self, name: str, t: Type = str, default: Any = None):
+        """
+        Adds a parameter for resolving
+
+        :param name: Parameter name
+        :param t: Parameter type
+        :param default: Default value
+        :return: None
+        """
         if t not in self._converters and get_origin(t) not in self._converters:
             raise NotImplementedError(f"Conversion support for type {str(t)} "
                                       f"not added!")
         self._params[name] = EnvResolver._Var(name, t, default)
 
     def resolve(self):
+        """
+        Resolves all configured parameters
+
+        :return: None
+        """
         for p in self._params.values():
             self._get_from_env(p)
             setattr(self, p.name, p.val)
 
     def get(self, name):
+        """
+        Get a parameter value
+
+        :param name: Parameter name
+        :return: Parameter value
+        """
         return self._params[name].val
 
