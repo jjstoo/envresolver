@@ -15,7 +15,7 @@ setup(
   author="Joni Lepistö",
   author_email="joni.m.lepisto@gmail.com",
   url="https://github.com/jjstoo/envresolver",
-  download_url="https://github.com/jjstoo/envresolver/archive",
+  download_url="https://github.com/jjstoo/envresolver/releases",
   keywords=["environment", "variable", "variables", "shell", "parsing"],
   classifiers=[
     "Development Status :: 3 - Alpha",
