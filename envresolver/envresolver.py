@@ -1,5 +1,7 @@
 from os import getenv
 from sys import stderr
+from json import loads
+import xml.etree.ElementTree as ET
 from typing import Type, Any, Callable, get_origin, get_args
 
 
@@ -65,12 +67,10 @@ class EnvResolver:
 
     @staticmethod
     def _get_json(e: str):
-        import json
-        return json.loads(e)
+        return loads(e)
 
     @staticmethod
     def _get_xml(e: str):
-        import xml.etree.ElementTree as ET
         return ET.fromstring(e)
 
     def _get_from_env(self, p: _Var):
