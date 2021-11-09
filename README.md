@@ -73,7 +73,7 @@ r.var # -1
 
 ### Advanced Types
 
-`LSFOpt` currently supports also some more advanced types of variables, such as lists, Json and XML. Lists have full support
+`EnvResolver` currently supports also some more advanced types of variables, such as lists, Json and XML. Lists have full support
 of type hinting and will try to convert all elements accordingly:
 
 ```python
@@ -103,7 +103,7 @@ r.json # {"key": "val"}
 
 ### Custom Types
 
-Users can supply `LSFOpt` with custom parsers as well as override existing ones. Below is an example of using a custom parser
+Users can supply `EnvResolver` with custom parsers as well as override existing ones. Below is an example of using a custom parser
 for reading data into a user-defined class:
 
 ```python
