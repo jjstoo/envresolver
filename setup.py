@@ -1,10 +1,17 @@
-from distutils.core import setup
+from setuptools import setup
+
+from pathlib import Path
+this_directory = Path(__file__).parent
+long_description = (this_directory / "README.md").read_text()
+
 setup(
   name="envresolver",
   packages=["envresolver"],
-  version="0.0.1",
+  version="0.0.2",
   license="apache-2.0",
   description="Pythonic parsing of environment variables",
+  long_description=long_description,
+  long_description_content_type="text/markdown",
   author="Joni Lepistö",
   author_email="joni.m.lepisto@gmail.com",
   url="https://github.com/jjstoo/envresolver",
