@@ -5,13 +5,13 @@ some manipulation to transform into any other types. `EnvResolver` class provide
 environment according to given specifications.
 
 #### Supported types (at the moment)
-- str
-- bool
-- int
-- float
-- lists holding the supported types
-- Json
-- XML
+- `str`
+- `bool`
+- `int`
+- `float`
+- `list` holding any of the supported types
+- `Json`
+- `XML`
 
 
 ## Usage
@@ -80,7 +80,7 @@ of type hinting and will try to convert all elements accordingly:
 from typing import List
 from envresolver import EnvResolver
 
-# export my_list=1,2,3,4
+# export my_list="1,2,3,4"
 r = EnvResolver()
 r.add_parameter("my_list", t=List[int])
 r.resolve()
@@ -94,7 +94,7 @@ Here is an example on Json parsing:
 ```python
 from envresolver import EnvResolver, Types
 
-# export json={"key": "val"}
+# export json='{"key": "val"}'
 r = EnvResolver()
 r.add_parameter("json", t=Types.Json)
 r.resolve()
@@ -126,7 +126,7 @@ def my_data_converter(e: str):
     # Return parsed data
     return MyData(a=s[0], b=s[1])
         
-# export data=john.smith
+# export data="john.smith"
 r = EnvResolver()
 r.add_converter(MyData, my_data_converter)
 r.add_parameter("data", t=MyData)
