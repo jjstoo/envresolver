@@ -2,7 +2,7 @@ from distutils.core import setup
 setup(
   name="envresolver",
   packages=["envresolver"],
-  version="0.1",
+  version="0.0.1",
   license="apache-2.0",
   description="Pythonic parsing of environment variables",
   author="Joni Lepistö",
