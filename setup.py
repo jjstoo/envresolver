@@ -7,7 +7,7 @@ setup(
   description="Pythonic parsing of environment variables",
   author="Joni Lepistö",
   author_email="joni.m.lepisto@gmail.com",
-  url="hhttps://github.com/jjstoo/envresolver",
+  url="https://github.com/jjstoo/envresolver",
   download_url="https://github.com/jjstoo/envresolver/archive",
   keywords=["environment", "variable", "variables", "shell", "parsing"],
   classifiers=[
