@@ -13,6 +13,8 @@ environment according to given specifications.
 - `Json`
 - `XML`
 
+Install with pip:
+`pip install envresolver`
 
 ## Usage
 
