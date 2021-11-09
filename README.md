@@ -28,7 +28,7 @@ r.add_parameter("var")
 r.resolve()
 ```
 
-If an environment variable `var1` was present in the current environment, it can be accessed by:
+If an environment variable `var` was present in the current environment, it can be accessed by:
 
 ```python
 r.var
@@ -117,8 +117,9 @@ class MyData:
 def my_data_converter(e: str):
     s = e.split(".")
     
-    # Raise ValueError if the given environment variable
-    #  is in wrong format
+    # Raise ValueError if the given 
+    # environment variable is in 
+    # wrong format
     if len(s) != 2:
         raise ValueError
     
