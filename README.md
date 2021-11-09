@@ -52,7 +52,7 @@ r.add_parameter("var", t=int, default=-1)
 ```
 
 Let's imagine the current environment would hold the variable `var` with a value of `"5"`. By running `EnvResolver.resolve`, 
-it would be automatically parsed. However, if the environment variable `var` would hold an incompatible value, `"_"`, as an example,
+it would be automatically parsed. However, if the environment variable `var` would hold an incompatible value, `"_"` as an example,
 the parsing would fail and `r.var` would hold the default value, if one was given:
 
 ```python
