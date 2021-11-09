@@ -37,6 +37,7 @@ class EnvResolver:
         self._list_separator = list_separator
         self._params: {str, EnvResolver._Var} = {}
         self._converters: {Type: Callable} = {
+            str: None,
             int: lambda e: int(e),
             float: lambda e: float(e),
             bool: EnvResolver._get_bool,
@@ -106,7 +107,7 @@ class EnvResolver:
                             f"{str(type(c))}")
         self._converters[t] = c
 
-    def add_parameter(self, name: str, t: Type, default: Any = None):
+    def add_parameter(self, name: str, t: Type = str, default: Any = None):
         if t not in self._converters and get_origin(t) not in self._converters:
             raise NotImplementedError(f"Conversion support for type {str(t)} "
                                       f"not added!")
