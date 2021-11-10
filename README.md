@@ -52,7 +52,7 @@ This is suitable for simple variables and values that can change constantly:
 from envresolver import EnvResolver
 
 r = EnvResolver()
-r.get("var", t=str)
+r.get("var")
 ```
 
 

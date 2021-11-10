@@ -100,3 +100,15 @@ class ParserTests(TestCase):
         self.p.resolve()
 
         self.assertEqual(l, self.p.ns.lst)
+
+    @mock.patch.dict(os.environ, {"var": "val"})
+    def test_get_str_direct(self):
+        self.assertEqual("val", self.p.get("var"))
+
+    @mock.patch.dict(os.environ, {"var": "0.123"})
+    def test_get_float_direct(self):
+        self.assertEqual(0.123, self.p.get("var", t=float))
+
+    @mock.patch.dict(os.environ, {"var": "rubbish"})
+    def test_get_direct_default(self):
+        self.assertEqual(0.123, self.p.get("var", t=float, default=0.123))
