@@ -4,3 +4,4 @@ MANIFEST
 *.pyc
 *.pyo
 *.egg-info/
+**/_trial_temp/

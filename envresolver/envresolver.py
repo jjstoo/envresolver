@@ -1,7 +1,9 @@
+import datetime
+import datetime as dt
+import xml.etree.ElementTree as ET
 from os import getenv
 from sys import stderr
 from json import loads
-import xml.etree.ElementTree as ET
 from typing import Type, Any, Callable, get_origin, get_args
 
 
@@ -29,14 +31,17 @@ class EnvResolver:
             self.t: Type = t
             self.val = val
 
-    def __init__(self, list_separator: str = ",", silent: bool = False):
+    def __init__(self, datetime_fmt: str = "%Y-%m-%d %H:%M:%S",
+                 list_separator: str = ",", silent: bool = False):
         """
         Initializes the instance and sets verbosity
 
+        :param datetime_fmt: Format for parsing timestamps
         :param list_separator: List separator symbol
         :param silent: If True, error messages will be printed to `stderr`
         """
         self._silent = silent
+        self._datetime_fmt = datetime_fmt
         self._list_separator = list_separator
         self._params: {str, EnvResolver._Var} = {}
         self._converters: {Type: Callable} = {
@@ -46,8 +51,12 @@ class EnvResolver:
             bool: EnvResolver._get_bool,
             Types.Json: EnvResolver._get_json,
             Types.Xml: EnvResolver._get_xml,
-            list: EnvResolver._get_list
+            datetime.datetime: self._get_datetime,
+            list: self._get_list
         }
+
+    def _get_datetime(self, e: str):
+        return dt.datetime.strptime(e, self._datetime_fmt)
 
     @staticmethod
     def _get_bool(e: str):
@@ -61,9 +70,8 @@ class EnvResolver:
         else:
             raise ValueError
 
-    @staticmethod
-    def _get_list(e: str, sep: str):
-        return e.split(sep)
+    def _get_list(self, e: str):
+        return e.split(self._list_separator)
 
     @staticmethod
     def _get_json(e: str):
@@ -81,7 +89,7 @@ class EnvResolver:
             if p.t == str:
                 p.val = env
             elif p.t == list or get_origin(p.t) == list:
-                l = self._converters[list](env, self._list_separator)
+                l = self._converters[list](env)
                 if p.t == list:
                     p.val = l
                     return
