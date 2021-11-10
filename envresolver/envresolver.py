@@ -31,6 +31,11 @@ class EnvResolver:
             self.t: Type = t
             self.val = val
 
+    class _Ns(object):
+        """
+        Empty namespace object
+        """
+
     def __init__(self, datetime_fmt: str = "%Y-%m-%d %H:%M:%S",
                  list_separator: str = ",", silent: bool = False):
         """
@@ -54,6 +59,8 @@ class EnvResolver:
             datetime.datetime: self._get_datetime,
             list: self._get_list
         }
+
+        self.ns = EnvResolver._Ns
 
     def _get_datetime(self, e: str):
         return dt.datetime.strptime(e, self._datetime_fmt)
@@ -123,12 +130,12 @@ class EnvResolver:
                             f"{str(type(c))}")
         self._converters[t] = c
 
-    def add_parameter(self, name: str, t: Type = str, default: Any = None):
+    def add_variable(self, name: str, t: Type = str, default: Any = None):
         """
-        Adds a parameter for resolving
+        Adds a variable for resolving
 
-        :param name: Parameter name
-        :param t: Parameter type
+        :param name: Variable name
+        :param t: Variable type
         :param default: Default value
         :return: None
         """
@@ -139,20 +146,35 @@ class EnvResolver:
 
     def resolve(self):
         """
-        Resolves all configured parameters
+        Resolves all configured variables
 
         :return: None
         """
         for p in self._params.values():
             self._get_from_env(p)
-            setattr(self, p.name, p.val)
+            setattr(self.ns, p.name, p.val)
 
-    def get(self, name):
+    def getr(self, name: str):
         """
-        Get a parameter value
+        Gets a variables value from the previously parsed cache.
 
-        :param name: Parameter name
-        :return: Parameter value
+        :param name: Variable name
+        :return: Variable value
         """
         return self._params[name].val
+
+    def get(self, name: str, t: Type = str, default: Any = None):
+        """
+        Gets a variable directly from the current environment.
+
+        :param name: Variable name
+        :param t: Variable type
+        :param default: Default value
+        :return:
+        """
+        v = EnvResolver._Var(name, t, default)
+        self._get_from_env(v)
+        return v.val
+
+
 

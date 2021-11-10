@@ -32,22 +32,36 @@ to parse simple string values:
 from envresolver import EnvResolver
 
 r = EnvResolver()
-r.add_parameter("var")
+r.add_variable("var")
 r.resolve()
 ```
 
-If an environment variable `var` was present in the current environment, it can be accessed by:
+If an environment variable `var` was present in the current environment, it can be accessed after resolving by a special 
+namespace member `ns` or by an explicit method `getr`.
 
 ```python
-r.var
+r.ns.var
 # Or
-r.get("var")
+r.getr("var")
 ```
 
-User can also supply default values:
+Additionally, variables can also be fetched from the current environment without pre-calculated resolving.
+This is suitable for simple variables and values that can change constantly:
 
 ```python
-r.add_parameter("var2", default="default_value")
+from envresolver import EnvResolver
+
+r = EnvResolver()
+r.get("var", t=str)
+```
+
+
+User can also supply default values to all requests:
+
+```python
+r.add_variable("var2", default="default_value")
+# Or
+r.get("var2", default="default_value")
 ```
 
 ### Environment Variables with Type Conversions
@@ -56,7 +70,9 @@ As stated before, `EnvResolver` also supports automated type conversions for env
 be specified as shown:
 
 ```python
-r.add_parameter("var", t=int, default=-1)
+r.add_variable("var", t=int, default=-1)
+# Or
+r.get("var", t=int, default=-1)
 ```
 
 Let's imagine the current environment would hold the variable `var` with a value of `"5"`. By running `EnvResolver.resolve`, 
@@ -68,15 +84,15 @@ from envresolver import EnvResolver
 
 # export var=5
 r = EnvResolver()
-r.add_parameter("var", t=int, default=-1)
+r.add_variable("var", t=int, default=-1)
 r.resolve()
-r.var # 5
+r.ns.var  # 5
 
 # export var=_
 r = EnvResolver()
-r.add_parameter("var", t=int, default=-1)
+r.add_variable("var", t=int, default=-1)
 r.resolve()
-r.var # -1
+r.ns.var  # -1
 ```
 
 ### Advanced Types
@@ -90,9 +106,9 @@ from envresolver import EnvResolver
 
 # export my_list="1,2,3,4"
 r = EnvResolver()
-r.add_parameter("my_list", t=List[int])
+r.add_variable("my_list", t=List[int])
 r.resolve()
-r.my_list # [1, 2, 3, 4]
+r.ns.my_list  # [1, 2, 3, 4]
 ```
 
 Json and XML are supported via custom type notations stored in `envresolver.Types`. Json and XML will be parsed using Pythons built-in
@@ -104,9 +120,9 @@ from envresolver import EnvResolver, Types
 
 # export json='{"key": "val"}'
 r = EnvResolver()
-r.add_parameter("json", t=Types.Json)
+r.add_variable("json", t=Types.Json)
 r.resolve()
-r.json # {"key": "val"}
+r.ns.json  # {"key": "val"}
 ```
 
 ### Custom Types
@@ -117,27 +133,30 @@ for reading data into a user-defined class:
 ```python
 from envresolver import EnvResolver
 
+
 class MyData:
     def __init__(self, a, b):
         self.a = a
         self.b = b
 
+
 def my_data_converter(e: str):
     s = e.split(".")
-    
+
     # Raise ValueError if the given 
     # environment variable is in 
     # wrong format
     if len(s) != 2:
         raise ValueError
-    
+
     # Return parsed data
     return MyData(a=s[0], b=s[1])
-        
+
+
 # export data="john.smith"
 r = EnvResolver()
 r.add_converter(MyData, my_data_converter)
-r.add_parameter("data", t=MyData)
+r.add_variable("data", t=MyData)
 r.resolve()
-r.data # MyData(a = "john", b = "smith")
+r.ns.data  # MyData(a = "john", b = "smith")
 ```
