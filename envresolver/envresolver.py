@@ -106,7 +106,11 @@ class EnvResolver:
                     p.val = l
                     return
                 else:
-                    t_content = get_args(p.t)[0]
+                    try:
+                        t_content = get_args(p.t)[0]
+                    except IndexError:
+                        p.val = l
+                        return
                     values_temp = []
                     for item in l:
                         values_temp.append(self._converters[t_content](item))
