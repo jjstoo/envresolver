@@ -7,7 +7,7 @@ long_description = (this_directory / "README.md").read_text()
 setup(
   name="envresolver",
   packages=["envresolver"],
-  version="0.0.3",
+  version="0.0.4",
   license="apache-2.0",
   description="Pythonic parsing of environment variables",
   long_description=long_description,

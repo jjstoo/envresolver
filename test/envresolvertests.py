@@ -112,3 +112,12 @@ class ParserTests(TestCase):
     @mock.patch.dict(os.environ, {"var": "rubbish"})
     def test_get_direct_default(self):
         self.assertEqual(0.123, self.p.get("var", t=float, default=0.123))
+
+    @mock.patch.dict(os.environ, {"var": "val"})
+    def test_get_str_illegal_names(self):
+        with self.assertRaises(ValueError):
+            self.p.get("dot.in.name")
+        with self.assertRaises(ValueError):
+            self.p.get("space in name")
+        with self.assertRaises(ValueError):
+            self.p.get("equals=inname")

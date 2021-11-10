@@ -1,6 +1,7 @@
 import datetime
 import datetime as dt
 import xml.etree.ElementTree as ET
+from re import fullmatch
 from os import getenv
 from sys import stderr
 from json import loads
@@ -61,6 +62,10 @@ class EnvResolver:
         }
 
         self.ns = EnvResolver._Ns
+
+    @staticmethod
+    def _validate_env_var_name(e: str):
+        return fullmatch(r"[a-zA-Z_]+[a-zA-Z0-9_]*", e)
 
     def _get_datetime(self, e: str):
         return dt.datetime.strptime(e, self._datetime_fmt)
@@ -139,6 +144,10 @@ class EnvResolver:
         :param default: Default value
         :return: None
         """
+        if not self._validate_env_var_name(name):
+            raise ValueError(f"Env var name {name} containing illegal "
+                             f"characters!")
+
         if t not in self._converters and get_origin(t) not in self._converters:
             raise NotImplementedError(f"Conversion support for type {str(t)} "
                                       f"not added!")
@@ -172,6 +181,10 @@ class EnvResolver:
         :param default: Default value
         :return:
         """
+        if not self._validate_env_var_name(name):
+            raise ValueError(f"Env var name {name} containing illegal "
+                             f"characters!")
+
         v = EnvResolver._Var(name, t, default)
         self._get_from_env(v)
         return v.val
