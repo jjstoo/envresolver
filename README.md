@@ -4,6 +4,9 @@ to common Python datatypes. Environment variables are only accessible as pure te
 some manipulation to transform into any other types. `EnvResolver` class provides a nifty way of parsing the current 
 environment according to given specifications.
 
+Install with pip:
+`pip install envresolver`
+
 #### Supported types (at the moment)
 - `str`
 - `bool`
@@ -12,6 +15,10 @@ environment according to given specifications.
 - `list` holding any of the supported types
 - `Json`
 - `XML`
+
+#### Why Envresolver?
+Envresolver is a lightweight alternative to other environment parsers and customizable by-design. 
+Adding support for new types is ultra-simplified and does not need any source modifications of the library itself.
 
 
 ## Usage
