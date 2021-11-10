@@ -15,6 +15,7 @@ Install with pip:
 - `list` holding any of the supported types
 - `Json`
 - `XML`
+- `datetime`
 
 #### Why Envresolver?
 Envresolver is a lightweight alternative to other environment parsers and customizable by-design. 
