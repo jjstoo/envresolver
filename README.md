@@ -125,6 +125,21 @@ r.resolve()
 r.ns.json  # {"key": "val"}
 ```
 
+Date objects are supported via Pythons built-in `datetime` module. User can specify in which format the date strings are expected, with the default being
+`%Y-%m-%d %H:%M:%S`. Here is an example:
+
+```python
+import datetime
+from envresolver import EnvResolver
+
+# export mydate="2021-01-01 12:34:56"
+r = EnvResolver()
+r.add_variable("mydate", datetime.datetime)
+r.resolve()
+r.ns.mydate # datetime.datetime -object with the correct time
+```
+
+
 ### Custom Types
 
 Users can supply `EnvResolver` with custom parsers as well as override existing ones. Below is an example of using a custom parser
