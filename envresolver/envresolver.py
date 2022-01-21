@@ -124,6 +124,18 @@ class EnvResolver:
                       f"current env with invalid value: {env}", file=stderr)
             return
 
+    def set_list_separator(self, sep: str):
+        """
+        Sets default separator for list conversions
+        """
+        self._list_separator = sep
+
+    def set_datetime_format(self, fmt: str):
+        """
+        Sets default format for `datetime.datetime` conversions
+        """
+        self._datetime_fmt = fmt
+
     def add_converter(self, t: Type, c: Callable):
         """
         Adds a custom converter/parser to the instance

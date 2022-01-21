@@ -7,7 +7,7 @@ long_description = (this_directory / "README.md").read_text()
 setup(
   name="envresolver",
   packages=["envresolver"],
-  version="0.0.4",
+  version="1.0.0",
   license="apache-2.0",
   description="Pythonic parsing of environment variables",
   long_description=long_description,
@@ -18,7 +18,7 @@ setup(
   download_url="https://github.com/jjstoo/envresolver/releases",
   keywords=["environment", "variable", "variables", "shell", "parsing"],
   classifiers=[
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
     "Topic :: Software Development :: Libraries :: Python Modules",
     "License :: OSI Approved :: Apache Software License",

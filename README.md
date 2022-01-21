@@ -139,6 +139,10 @@ r.resolve()
 r.ns.mydate # datetime.datetime -object with the correct time
 ```
 
+Parsing certain advaced types, such as `datetime` objects or lists, relies on additional information
+regarding the data format. List parsing needs to know the list separator character and datetime conversions
+rely on certain date formats. These can be configured either at `EnvResolver` initialization or afterwards using
+the methods `set_list_separator` and `set_datetime_format`.
 
 ### Custom Types
 
